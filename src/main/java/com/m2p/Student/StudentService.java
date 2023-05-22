@@ -14,8 +14,8 @@ public class StudentService {
     @Autowired
     private StudentRepo studentRepo;
 
-    public List<Student> getStudents(Integer id,String name){
-        return studentRepo.getStudentList(id,name);
+    public List<Student> getStudents(){
+        return studentRepo.getStudentList();
     };
 
     public void saveStudent(Student student) {
@@ -23,8 +23,8 @@ public class StudentService {
     }
 
 
-    public void getStudent(Integer id) {
-        studentRepo.getStudentById(id);
+    public Student getStudent(Integer id) {
+        return studentRepo.getStudentById(id);
 
     }
 }

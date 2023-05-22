@@ -8,7 +8,7 @@ import java.util.List;
 public class StudentRepo {
     List<Student> studentList = new ArrayList<>();
 
-    public List<Student> getStudentList(Integer id, String name) {
+    public List<Student> getStudentList() {
 //        System.out.println(id);
 //        System.out.println(name);
         return studentList;
@@ -20,8 +20,17 @@ public class StudentRepo {
 //        System.out.println(studentList);
     }
 
-    public void getStudentById(Integer id) {
-//        System.out.println(studentList);
+    public Student getStudentById(Integer id) {
+        System.out.println(id);
+        Student requiredStudent = new Student(null,null);
+        for(Student student:studentList) {
+            if(student.getId() == id)
+            {
+               requiredStudent = student;
+            }
+        }
+
+        return requiredStudent;
 
 
     }

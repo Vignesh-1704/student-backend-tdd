@@ -18,8 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -44,14 +43,31 @@ public class StudentControllerTest {
 
         when(studentService.getStudents()).thenReturn(Arrays.asList(new Student("Utkarsh",1)));
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/students"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/students"))
                 .andExpect(status().isOk()) // default 200
                 .andExpect(content().json(objectMapper.writeValueAsString(Arrays.asList(new Student("Utkarsh",1)))));
 
-
-
     }
 
+    @Test
+    void shouldGetStudentById() throws Exception {
+        when(studentService.getStudent(1)).thenReturn((new Student("Sruthi",1)));
 
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/student/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(new Student("Sruthi",1))));
+    }
+
+    @Test
+    void shouldAddAStudentToStudentList() throws Exception {
+
+        Student dummyStudent = new Student("Chalini",2);
+//        when(studentService.saveStudent(dummyStudent)).thenReturn()
+        String json = objectMapper.writer().writeValueAsString(dummyStudent);
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/student")
+                        .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isCreated());
+        verify(studentService).saveStudent(dummyStudent);
+    }
 }
 

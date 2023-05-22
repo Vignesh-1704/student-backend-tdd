@@ -1,4 +1,5 @@
 package com.m2p.Student;
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,20 +18,20 @@ public class StudentController {
 
 
     @GetMapping("/students")
-    public ResponseEntity<List<Student>> getAllStudents(Integer id, String name){
-        return new ResponseEntity<>(studentService.getStudents(id,name),HttpStatus.OK);
+    public ResponseEntity<List<Student>> getAllStudents(){
+        return new ResponseEntity<>(studentService.getStudents(),HttpStatus.OK);
     }
 
     @GetMapping("/student/{id}")
-    public void getAStudent(Integer id){
-        studentService.getStudent(id);
+    public Student getAStudent(@PathVariable Integer id){
+        return studentService.getStudent(id);
 //        return new ResponseEntity<>(studentService.getStudent(),HttpStatus.OK);
 
     }
 
     @PostMapping("/student")
     public ResponseEntity<Student> saveStudent(@RequestBody Student student){
-        System.out.println(student.getName());
+        System.out.println(student);
         studentService.saveStudent(student);
         return new ResponseEntity<>(student,HttpStatus.CREATED);
     }
