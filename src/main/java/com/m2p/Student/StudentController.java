@@ -1,4 +1,5 @@
 package com.m2p.Student;
+import com.m2p.Student.exception.RequestException;
 import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,10 +24,17 @@ public class StudentController {
     }
 
     @GetMapping("/student/{id}")
-    public Student getAStudent(@PathVariable Integer id){
-        return studentService.getStudent(id);
-//        return new ResponseEntity<>(studentService.getStudent(),HttpStatus.OK);
+    public ResponseEntity<Student> getAStudent(@PathVariable Integer id){
+        Student student;
+        try{
+            student = studentService.getStudent(id);
+         }
+        catch (RequestException e)
+        {
+            throw new RequestException("Not Found");
+        }
 
+        return new ResponseEntity<>(student,HttpStatus.OK);
     }
 
     @PostMapping("/student")

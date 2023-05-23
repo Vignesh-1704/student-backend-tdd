@@ -1,4 +1,5 @@
 package com.m2p.Student;
+import com.m2p.Student.exception.RequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,14 @@ public class StudentService {
 
 
     public Student getStudent(Integer id) {
-        return studentRepo.getStudentById(id);
-
+        Student student =  studentRepo.getStudentById(id);
+        if(student.getId() == null)
+        {
+            throw new RequestException("Not Found");
+        }
+        else
+        {
+            return student;
+        }
     }
 }
